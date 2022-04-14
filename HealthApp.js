@@ -1,12 +1,34 @@
 
+initClock("EST", 'America/New_York');
+initClock("CST", 'America/Chicago');
+initClock("MST", 'America/Denver');
+initClock("PST", 'America/Los_Angeles');
 
-initClock("EST", 0);
-initClock("CST", -1);
-initClock("MST", -2);
-initClock("PST", -3);
+/*
+let allHolidays = [];
+let holidays = [];
+const endpoint = 'https://www.googleapis.com/calendar/v3/calendars/en.usa%23holiday@group.v.calendar.google.com/events?key=AIzaSyBYJR0bTOkaQGscXkcAhGBwcJG95CvK5SM';
+fetch(endpoint)
+    .then((response) => response.json())
+    .then((data) => {
+        allHolidays = data.items;
+    })
+    .then(() => {
+        for(let i = 0; i<allHolidays.length; i++){
+            if(!allHolidays[i].description.startsWith("Observance")){
+                holidays.push(allHolidays[i]);
+            }
+        }
+        console.log(holidays);
+    }).then(() => {
+        setInterval(updateDates, 5*60*60);
+        updateDates();
+    }).catch(e => console.log("Fetch Error > ",e))
+*/
 
-setInterval(updateDates, 5*60*60);
+setInterval(updateDates, 1000);
 updateDates();
+
 function updateDates(){
     var today = document.getElementById("today");
     var thirty = document.getElementById("thirty");
@@ -18,9 +40,11 @@ function updateDates(){
     var offsetModifier = 0;
 
     var date = getOffsetDate(0);
+    //ifOnHoliday(date);
     today.innerHTML = date.toLocaleDateString("en-US", options)
 
     date = getOffsetDate(30);
+    //ifOnHoliday(date);
     thirty.innerHTML = date.toLocaleDateString("en-US", options)
     if(offsetModifier!= 0){
         thirty.nextElementSibling.innerHTML = `30 Days (${30-offsetModifier} Actual)`
@@ -29,6 +53,7 @@ function updateDates(){
     }
 
     date = getOffsetDate(42);
+    //ifOnHoliday(date);
     fourty.innerHTML = date.toLocaleDateString("en-US", options)
     if(offsetModifier!= 0){
         fourty.nextElementSibling.innerHTML = `42 Days (${42-offsetModifier} Actual)`
@@ -37,13 +62,13 @@ function updateDates(){
     }
 
     date = getOffsetDate(90);
+    //ifOnHoliday(date);
     ninety.innerHTML = date.toLocaleDateString("en-US", options)
     if(offsetModifier!= 0){
         ninety.nextElementSibling.innerHTML = `90 Days (${90-offsetModifier} Actual)`
     }else{
         ninety.nextElementSibling.innerHTML = `90 Days`
     }
-    
 
 
     function getOffsetDate(offset){
@@ -59,6 +84,20 @@ function updateDates(){
         }
         return now;
     }
+
+    /*
+    function ifOnHoliday(now){
+        for(var i = 0; i < allHolidays.length; i++){
+            var holiDate = new Date(allHolidays[i].start.date);
+            if(holiDate.getFullYear() === now.getFullYear() &&
+                holiDate.getMonth() === now.getMonth() &&
+                holiDate.getDate() === now.getDate()){
+                    
+                console.log(`${now} is ${allHolidays[i].summary}`)
+            }
+        }
+    }
+    */
 
 }
 
@@ -112,14 +151,24 @@ function initClock(id, offset){
 
     function drawTime(ctx, radius){
         var now = new Date();
-        now.setHours(now.getHours() + offset)
-        var hour = now.getHours()
-        var minute = now.getMinutes();
-        var second = now.getSeconds();
 
-        //TODO - Need to handle DST 
+        let modified = new Date( now.toLocaleString('en-US', {timeZone: offset,}) )
+
+        if(modified.getHours() == now.getHours()){
+            //console.log(`Your in the ${offset} timezone!`);
+            document.getElementById(id).parentElement.classList.add("myTime");
+        }
+
+        getCurrentTimeZoneOffset(modified);
+
+        //now.setHours(now.getHours() + offset)
+        var hour = modified.getHours()
+        var minute = modified.getMinutes();
+        var second = modified.getSeconds();
+
+
         var label = document.getElementById(`${id}_Label`);
-        label.innerHTML = `${now.toLocaleTimeString("en-us", {hour: "2-digit", minute: "2-digit", hour12: true})} ${id}`
+        label.innerHTML = `${modified.toLocaleTimeString("en-us", {hour: "2-digit", minute: "2-digit", hour12: true})}`
         //hour
         hour=hour%12;
         hour=(hour*Math.PI/6)+
@@ -144,4 +193,24 @@ function initClock(id, offset){
         ctx.stroke();
         ctx.rotate(-pos);
     }
+}
+
+function getCurrentTimeZoneOffset(now){
+   let date = new Date();
+   
+   date.setDate = 1;
+   date.setMonth = 1;
+   date.setYear = now.getFullYear();
+   let notDST =  date.getTimezoneOffset() / 60;
+   date.setMonth = 7;
+   let DST = date.getTimezoneOffset() / 60;
+
+   let nowOffset = date.getTimezoneOffset() / 60;
+
+   if(DST === nowOffset){
+        //console.log("Time is DST > ", now)
+   }else{
+        //console.log("Time is not DST > ", now)
+   }
+
 }
