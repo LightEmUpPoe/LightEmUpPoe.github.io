@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/HealthApp.css">
+    </head>
+    <body>
+        <div class="clockContainer">
+            <span>
+                <canvas id="PST" class="clockInstance"></canvas>
+                <a id="PST_Label">PST</a>
+            </span>
+            <span>
+                <canvas id="MST" class="clockInstance"></canvas>
+                <a id="MST_Label">MST</a>
+            </span>
+            <span>
+                <canvas id="CST" class="clockInstance"></canvas>
+                <a id="CST_Label">CST</a>
+            </span>
+            <span>
+                <canvas id="EST" class="clockInstance"></canvas>
+                <a id="EST_Label">EST</a>
+            </span>
+        </div>
+        <div class="dateContainer">
+            <div class="dateInstance">
+                <img src="calendar-days-solid.svg" />
+                <span>
+                    <h2 id="today">Monday, Jan 1st 2022</h2>
+                    <a>Today</a>
+                </span>
+            </div>
+            <div class="dateInstance">
+                <img class="orange" src="calendar-days-solid.svg" />
+                <span>
+                    <h2 id="thirty">Monday, Jan 1st 2022</h2>
+                    <a>30 Days</a>
+                </span>
+            </div>
+            <div class="dateInstance">
+                <img class="pink" src="calendar-days-solid.svg" />
+                <span>
+                    <h2 id="fourty">Monday, Jan 1st 2022</h2>
+                    <a>42 Days</a>
+                </span>
+            </div>
+            <div class="dateInstance">
+                <img class="yellow" src="calendar-days-solid.svg" />
+                <span>
+                    <h2 id="ninety">Monday, Jan 1st 2022</h2>
+                    <a>90 Days</a>
+                </span>
+            </div>
+        </div>
+    </body>
+    <script src="HealthApp.js"></script>
+</html>
