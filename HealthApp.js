@@ -3,6 +3,10 @@ initClock("EST", 'America/New_York');
 initClock("CST", 'America/Chicago');
 initClock("MST", 'America/Denver');
 initClock("PST", 'America/Los_Angeles');
+initClock("AST", 'America/Anchorage');
+initClock("HST", 'Pacific/Honolulu');
+
+var myTime = "";
 
 /*
 let allHolidays = [];
@@ -31,6 +35,7 @@ updateDates();
 
 function updateDates(){
     var today = document.getElementById("today");
+    var seven = document.getElementById("seven");
     var thirty = document.getElementById("thirty");
     var fourty = document.getElementById("fourty");
     var ninety = document.getElementById("ninety");
@@ -43,31 +48,40 @@ function updateDates(){
     //ifOnHoliday(date);
     today.innerHTML = date.toLocaleDateString("en-US", options)
 
+    date = getOffsetDate(7);
+    //ifOnHoliday(date);
+    seven.innerHTML = date.toLocaleDateString("en-US", options)
+    if(offsetModifier!= 0){
+        seven.nextElementSibling.innerHTML = `+7 Days (${7-offsetModifier} Actual)`
+    }else{
+        seven.nextElementSibling.innerHTML = `+7 Days`
+    }
+
     date = getOffsetDate(30);
     //ifOnHoliday(date);
     thirty.innerHTML = date.toLocaleDateString("en-US", options)
     if(offsetModifier!= 0){
-        thirty.nextElementSibling.innerHTML = `30 Days (${30-offsetModifier} Actual)`
+        thirty.nextElementSibling.innerHTML = `+30 Days (${30-offsetModifier} Actual)`
     }else{
-        thirty.nextElementSibling.innerHTML = `30 Days`
+        thirty.nextElementSibling.innerHTML = `+30 Days`
     }
 
     date = getOffsetDate(42);
     //ifOnHoliday(date);
     fourty.innerHTML = date.toLocaleDateString("en-US", options)
     if(offsetModifier!= 0){
-        fourty.nextElementSibling.innerHTML = `42 Days (${42-offsetModifier} Actual)`
+        fourty.nextElementSibling.innerHTML = `+42 Days (${42-offsetModifier} Actual)`
     }else{
-        fourty.nextElementSibling.innerHTML = `42 Days`
+        fourty.nextElementSibling.innerHTML = `+42 Days`
     }
 
     date = getOffsetDate(90);
     //ifOnHoliday(date);
     ninety.innerHTML = date.toLocaleDateString("en-US", options)
     if(offsetModifier!= 0){
-        ninety.nextElementSibling.innerHTML = `90 Days (${90-offsetModifier} Actual)`
+        ninety.nextElementSibling.innerHTML = `+90 Days (${90-offsetModifier} Actual)`
     }else{
-        ninety.nextElementSibling.innerHTML = `90 Days`
+        ninety.nextElementSibling.innerHTML = `+90 Days`
     }
 
 
@@ -124,7 +138,7 @@ function initClock(id, offset){
         ctx.arc(0, 0, radius, 0, 2*Math.PI);
         ctx.fillStyle = "#77b7ff"
         ctx.fill();
-        ctx.strokeStyle = 'black';
+        ctx.strokeStyle = id == myTime ? 'darkblue' : 'black';
         ctx.lineWidth = radius*0.05;
         ctx.stroke();
         ctx.beginPath();
@@ -156,7 +170,7 @@ function initClock(id, offset){
 
         if(modified.getHours() == now.getHours()){
             //console.log(`Your in the ${offset} timezone!`);
-            document.getElementById(id).parentElement.classList.add("myTime");
+            myTime = id;
         }
 
         getCurrentTimeZoneOffset(modified);
