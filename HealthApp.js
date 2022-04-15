@@ -52,9 +52,9 @@ function updateDates(){
     //ifOnHoliday(date);
     seven.innerHTML = date.toLocaleDateString("en-US", options)
     if(offsetModifier!= 0){
-        seven.nextElementSibling.innerHTML = `+7 Days (${7-offsetModifier} Actual)`
+        seven.nextElementSibling.innerHTML = `C2 | +5 Business Days (${7-offsetModifier} Actual)`
     }else{
-        seven.nextElementSibling.innerHTML = `+7 Days`
+        seven.nextElementSibling.innerHTML = `C2 | +5 Business Days`
     }
 
     date = getOffsetDate(30);
