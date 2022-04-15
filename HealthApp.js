@@ -93,7 +93,7 @@ function updateDates(){
         var day = now.getDay();
         while( day == 0 || day == 6){
             offsetModifier++;
-            now.setDate(now.getDate() - offsetModifier);
+            now.setDate(now.getDate() - 1);
             day = now.getDay();
         }
         return now;
