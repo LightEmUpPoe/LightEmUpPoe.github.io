@@ -138,7 +138,7 @@ function initClock(id, offset){
         ctx.arc(0, 0, radius, 0, 2*Math.PI);
         ctx.fillStyle = "#77b7ff"
         ctx.fill();
-        ctx.strokeStyle = id == myTime ? 'darkgreen' : 'black';
+        ctx.strokeStyle = id == myTime ? '#228b22' : 'black';
         ctx.lineWidth = radius*0.05;
         ctx.stroke();
         ctx.beginPath();
