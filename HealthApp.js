@@ -17,6 +17,7 @@ const endpoint = 'https://www.googleapis.com/calendar/v3/calendars/en.usa%23holi
 fetch(endpoint)
     .then((response) => response.json())
     .then((data) => {
+        if(!data.items) throw 'No JSON Response';
         allHolidays = data.items;
     })
     .then(() => {
