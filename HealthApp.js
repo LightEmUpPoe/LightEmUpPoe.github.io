@@ -8,6 +8,8 @@ initClock("HST", 'Pacific/Honolulu');
 
 var myTime = "";
 
+window.enableHoldayDetection = false; //Test Feature enabled by console.
+
 
 let allHolidays = [];
 let holidays = [];
@@ -23,11 +25,16 @@ fetch(endpoint)
                 holidays.push(allHolidays[i]);
             }
         }
-        console.log(holidays);
     }).then(() => {
         setInterval(updateDates, 1000);
         updateDates();
-    }).catch(e => console.log("Fetch Error > ",e))
+    }).catch(e => {
+        console.log("Fetch Error > ",e)
+        console.log("Starting updates manually without holidays");
+        enableHoldayDetection = false;
+        setInterval(updateDates, 1000);
+        updateDates();
+    })
 
 
 //setInterval(updateDates, 1000);
@@ -43,46 +50,49 @@ function updateDates(){
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     
     var offsetModifier = 0;
+    var holidayString = "";
+
 
     var date = getOffsetDate(0);
-    //ifOnHoliday(date);
     today.innerHTML = date.toLocaleDateString("en-US", options)
+    holidayString.length > 1 ? today.nextElementSibling.innerHTML = `Today | ${holidayString}` : `Today`;
+    holidayString = "";
 
     date = getOffsetDate(7);
-    //ifOnHoliday(date);
     seven.innerHTML = date.toLocaleDateString("en-US", options)
     if(offsetModifier!= 0){
-        seven.nextElementSibling.innerHTML = `C2 | +5 Business Days (${7-offsetModifier} Actual)`
+        seven.nextElementSibling.innerHTML = `C2 | +5 Business Days (${7-offsetModifier} Actual${holidayString.length > 0 ? ` | Avoids ${holidayString}`:""})`
     }else{
         seven.nextElementSibling.innerHTML = `C2 | +5 Business Days`
     }
+    holidayString = "";
 
     date = getOffsetDate(30);
-    //ifOnHoliday(date);
     thirty.innerHTML = date.toLocaleDateString("en-US", options)
     if(offsetModifier!= 0){
-        thirty.nextElementSibling.innerHTML = `+30 Days (${30-offsetModifier} Actual)`
+        thirty.nextElementSibling.innerHTML = `+30 Days (${30-offsetModifier} Actual${holidayString.length > 0 ? ` | Avoids ${holidayString}`:""})`
     }else{
         thirty.nextElementSibling.innerHTML = `+30 Days`
     }
+    holidayString = "";
 
     date = getOffsetDate(42);
-    //ifOnHoliday(date);
     fourty.innerHTML = date.toLocaleDateString("en-US", options)
     if(offsetModifier!= 0){
-        fourty.nextElementSibling.innerHTML = `+42 Days (${42-offsetModifier} Actual)`
+        fourty.nextElementSibling.innerHTML = `+42 Days (${42-offsetModifier} Actual${holidayString.length > 0 ? ` | Avoids ${holidayString}`:""})`
     }else{
         fourty.nextElementSibling.innerHTML = `+42 Days`
     }
+    holidayString = "";
 
     date = getOffsetDate(90);
-    //ifOnHoliday(date);
     ninety.innerHTML = date.toLocaleDateString("en-US", options)
     if(offsetModifier!= 0){
-        ninety.nextElementSibling.innerHTML = `+90 Days (${90-offsetModifier} Actual)`
+        ninety.nextElementSibling.innerHTML = `+90 Days (${90-offsetModifier} Actual${holidayString.length > 0 ? ` | Avoids ${holidayString}`:""})`
     }else{
         ninety.nextElementSibling.innerHTML = `+90 Days`
     }
+    holidayString = "";
 
 
     function getOffsetDate(offset){
@@ -90,28 +100,31 @@ function updateDates(){
         now.setDate(now.getDate() + offset)
         offsetModifier = 0;
         if(offset == 0){ return now }
-        var day = now.getDay();
-        while( day == 0 || day == 6){
+        while( now.getDay() == 0 || now.getDay() == 6 || ifOnHoliday(now) ){
             offsetModifier++;
             now.setDate(now.getDate() - 1);
-            day = now.getDay();
         }
         return now;
     }
 
-    /*
+    
     function ifOnHoliday(now){
+        if(allHolidays.length < 1) return;
+        if(!enableHoldayDetection) return;
         for(var i = 0; i < allHolidays.length; i++){
-            var holiDate = new Date(allHolidays[i].start.date);
+            var holiDate = new Date(allHolidays[i].start.date + "T00:00:00");
             if(holiDate.getFullYear() === now.getFullYear() &&
                 holiDate.getMonth() === now.getMonth() &&
                 holiDate.getDate() === now.getDate()){
                     
                 console.log(`${now} is ${allHolidays[i].summary}`)
+                holidayString = allHolidays[i].summary;
+                return true;
             }
         }
+        return false
     }
-    */
+    
 
 }
 
