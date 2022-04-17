@@ -8,7 +8,7 @@ initClock("HST", 'Pacific/Honolulu');
 
 var myTime = "";
 
-/*
+
 let allHolidays = [];
 let holidays = [];
 const endpoint = 'https://www.googleapis.com/calendar/v3/calendars/en.usa%23holiday@group.v.calendar.google.com/events?key=AIzaSyBYJR0bTOkaQGscXkcAhGBwcJG95CvK5SM';
@@ -25,13 +25,13 @@ fetch(endpoint)
         }
         console.log(holidays);
     }).then(() => {
-        setInterval(updateDates, 5*60*60);
+        setInterval(updateDates, 1000);
         updateDates();
     }).catch(e => console.log("Fetch Error > ",e))
-*/
 
-setInterval(updateDates, 1000);
-updateDates();
+
+//setInterval(updateDates, 1000);
+//updateDates();
 
 function updateDates(){
     var today = document.getElementById("today");
