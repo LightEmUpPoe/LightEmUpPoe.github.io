@@ -99,7 +99,10 @@ function updateDates(){
         var now = new Date();
         now.setDate(now.getDate() + offset)
         offsetModifier = 0;
-        if(offset == 0){ return now }
+        if(offset == 0){ 
+            ifOnHoliday(now);
+            return now 
+        }
         while( now.getDay() == 0 || now.getDay() == 6 || ifOnHoliday(now) ){
             offsetModifier++;
             now.setDate(now.getDate() - 1);
