@@ -8,7 +8,7 @@ initClock("HST", 'Pacific/Honolulu');
 
 var myTime = "";
 
-window.enableHoldayDetection = false; //Test Feature enabled by console.
+window.enableHoldayPrevention = false; //Test Feature enabled by console.
 
 
 let allHolidays = [];
@@ -29,9 +29,9 @@ fetch(endpoint)
         setInterval(updateDates, 1000);
         updateDates();
     }).catch(e => {
-        console.log("Fetch Error > ",e)
-        console.log("Starting updates manually without holidays");
-        enableHoldayDetection = false;
+        console.error("Fetch Error > ",e)
+        console.warn("Starting updates manually without holidays");
+        enableHoldayPrevention = false;
         setInterval(updateDates, 1000);
         updateDates();
     })
@@ -61,27 +61,27 @@ function updateDates(){
     date = getOffsetDate(7);
     seven.innerHTML = date.toLocaleDateString("en-US", options)
     if(offsetModifier!= 0){
-        seven.nextElementSibling.innerHTML = `C2 | +5 Business Days (${7-offsetModifier} Actual${holidayString.length > 0 ? ` | Avoids ${holidayString}`:""})`
+        seven.nextElementSibling.innerHTML = `C2 | +5 Business Days (${7-offsetModifier} Actual${holidayString.length > 0 ? ` | ${holidayString}`:""})`
     }else{
-        seven.nextElementSibling.innerHTML = `C2 | +5 Business Days`
+        seven.nextElementSibling.innerHTML = `C2 | +5 Business Days${holidayString.length > 0 ? ` | ${holidayString}`: ""}`;
     }
     holidayString = "";
 
     date = getOffsetDate(30);
     thirty.innerHTML = date.toLocaleDateString("en-US", options)
     if(offsetModifier!= 0){
-        thirty.nextElementSibling.innerHTML = `+30 Days (${30-offsetModifier} Actual${holidayString.length > 0 ? ` | Avoids ${holidayString}`:""})`
+        thirty.nextElementSibling.innerHTML = `+30 Days (${30-offsetModifier} Actual${holidayString.length > 0 ? ` | ${holidayString}`:""})`
     }else{
-        thirty.nextElementSibling.innerHTML = `+30 Days`
+        thirty.nextElementSibling.innerHTML = `+30 Days${holidayString.length > 0 ? ` | ${holidayString}`: ""}`
     }
     holidayString = "";
 
     date = getOffsetDate(42);
     fourty.innerHTML = date.toLocaleDateString("en-US", options)
     if(offsetModifier!= 0){
-        fourty.nextElementSibling.innerHTML = `+42 Days (${42-offsetModifier} Actual${holidayString.length > 0 ? ` | Avoids ${holidayString}`:""})`
+        fourty.nextElementSibling.innerHTML = `+42 Days (${42-offsetModifier} Actual${holidayString.length > 0 ? ` | ${holidayString}`:""})`
     }else{
-        fourty.nextElementSibling.innerHTML = `+42 Days`
+        fourty.nextElementSibling.innerHTML = `+42 Days${holidayString.length > 0 ? ` | ${holidayString}`: ""}`
     }
     holidayString = "";
 
@@ -90,7 +90,7 @@ function updateDates(){
     if(offsetModifier!= 0){
         ninety.nextElementSibling.innerHTML = `+90 Days (${90-offsetModifier} Actual${holidayString.length > 0 ? ` | Avoids ${holidayString}`:""})`
     }else{
-        ninety.nextElementSibling.innerHTML = `+90 Days`
+        ninety.nextElementSibling.innerHTML = `+90 Days${holidayString.length > 0 ? ` | ${holidayString}`: ""}`
     }
     holidayString = "";
 
@@ -110,16 +110,16 @@ function updateDates(){
     
     function ifOnHoliday(now){
         if(allHolidays.length < 1) return;
-        if(!enableHoldayDetection) return;
         for(var i = 0; i < allHolidays.length; i++){
             var holiDate = new Date(allHolidays[i].start.date + "T00:00:00");
             if(holiDate.getFullYear() === now.getFullYear() &&
                 holiDate.getMonth() === now.getMonth() &&
                 holiDate.getDate() === now.getDate()){
                     
-                console.log(`${now} is ${allHolidays[i].summary}`)
+                console.debug(`${now} is ${allHolidays[i].summary}`)
                 holidayString = allHolidays[i].summary;
-                return true;
+                //If holiday prevention is disabled, this function will always return false
+                return enableHoldayPrevention;
             }
         }
         return false
@@ -182,7 +182,7 @@ function initClock(id, offset){
         let modified = new Date( now.toLocaleString('en-US', {timeZone: offset,}) )
 
         if(modified.getHours() == now.getHours()){
-            //console.log(`Your in the ${offset} timezone!`);
+            //console.debug(`You're in the ${offset} timezone!`);
             myTime = id;
         }
 
@@ -220,24 +220,26 @@ function initClock(id, offset){
         ctx.stroke();
         ctx.rotate(-pos);
     }
-}
 
-function getCurrentTimeZoneOffset(now){
-   let date = new Date();
-   
-   date.setDate = 1;
-   date.setMonth = 1;
-   date.setYear = now.getFullYear();
-   let notDST =  date.getTimezoneOffset() / 60;
-   date.setMonth = 7;
-   let DST = date.getTimezoneOffset() / 60;
+    function getCurrentTimeZoneOffset(now){
+        let date = new Date();
+        
+        date.setDate = 1;
+        date.setMonth = 1;
+        date.setYear = now.getFullYear();
+        let notDST =  date.getTimezoneOffset() / 60;
+        date.setMonth = 7;
+        let DST = date.getTimezoneOffset() / 60;
+     
+        let nowOffset = date.getTimezoneOffset() / 60;
+     
+        if(DST === nowOffset){
+            //console.log(`${offset} Timezone is Daylight Savings`)
+        }else{
+            //console.log(`${offset} Timezone is not in Daylight Savings`)
+        }
+     
+     }
 
-   let nowOffset = date.getTimezoneOffset() / 60;
-
-   if(DST === nowOffset){
-        //console.log("Time is DST > ", now)
-   }else{
-        //console.log("Time is not DST > ", now)
-   }
-
+    //console.groupEnd(`${id}`);
 }
