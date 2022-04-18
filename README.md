@@ -1,4 +1,4 @@
-# Health Call Offset WebApp
+# Healthcare Call Offset WebApp
 Javascript application to show multiple timezones and calendar offsets
 
 ### Functional Overview
