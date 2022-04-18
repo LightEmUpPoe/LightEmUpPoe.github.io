@@ -8,7 +8,7 @@ initClock("HST", 'Pacific/Honolulu');
 
 var myTime = "";
 
-window.enableHoldayPrevention = false; //Test Feature enabled by console.
+window.enableHoldayPrevention = true; //Test Feature disabled by console.
 
 
 let allHolidays = [];
