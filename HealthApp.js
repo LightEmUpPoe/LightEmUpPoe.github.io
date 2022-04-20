@@ -113,15 +113,15 @@ function updateDates(){
 
     
     function ifOnHoliday(now){
-        if(allHolidays.length < 1) return;
-        for(var i = 0; i < allHolidays.length; i++){
-            var holiDate = new Date(allHolidays[i].start.date + "T00:00:00");
+        if(holidays.length < 1) return;
+        for(var i = 0; i < holidays.length; i++){
+            var holiDate = new Date(holidays[i].start.date + "T00:00:00");
             if(holiDate.getFullYear() === now.getFullYear() &&
                 holiDate.getMonth() === now.getMonth() &&
                 holiDate.getDate() === now.getDate()){
                     
-                console.debug(`${now} is ${allHolidays[i].summary}`)
-                holidayString = allHolidays[i].summary;
+                console.debug(`${now} is ${holidays[i].summary}`)
+                holidayString = holidays[i].summary;
                 //If holiday prevention is disabled, this function will always return false
                 return enableHoldayPrevention;
             }
