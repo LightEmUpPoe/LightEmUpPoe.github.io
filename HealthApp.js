@@ -10,6 +10,16 @@ var myTime = "";
 
 window.enableHoldayPrevention = true; //Test Feature disabled by console.
 
+let holidayList = [
+    'New Year\'s Day',
+    'Martin Luther King Jr. Day',
+    'Memorial Day',
+    'Independence Day',
+    'Labor Day',
+    'Thanksgiving Day',
+    'Christmas Day'
+];
+
 
 let allHolidays = [];
 let holidays = [];
@@ -22,7 +32,7 @@ fetch(endpoint)
     })
     .then(() => {
         for(let i = 0; i<allHolidays.length; i++){
-            if(!allHolidays[i].description.startsWith("Observance")){
+            if(!allHolidays[i].description.startsWith("Observance") && isIncluded(allHolidays[i].summary)){
                 holidays.push(allHolidays[i]);
             }
         }
@@ -38,6 +48,15 @@ fetch(endpoint)
     })
 
 
+function isIncluded(holidayCheck){
+    for(let i = 0; i< holidayList.length; i++){
+        if(holidayCheck.includes(holidayList[i])){
+            return true;
+        }
+    }
+    return false;
+    
+}
 //setInterval(updateDates, 1000);
 //updateDates();
 
