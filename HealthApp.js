@@ -124,7 +124,6 @@ function updateDates(){
             return now 
         }
         while( now.getDay() == 0 || now.getDay() == 6 || ifOnHoliday(now) ){
-            offsetModifier++;
             if(offset == 7){
                 offsetModifier--;
                 now.setDate(now.getDate() + 1);
