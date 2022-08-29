@@ -38,7 +38,7 @@ fetch(endpoint)
             if(!allHolidays[i].description.startsWith("Observance") && isIncluded(allHolidays[i].summary)){
                 holidays.push(allHolidays[i]);
                 if(enableBlackFridayHoliday && allHolidays[i].summary.includes('Thanksgiving Day')){
-                    let blackFriday = allHolidays[i];
+                    let blackFriday = { ...allHolidays[i] };
                     blackFriday.summary = "Black Friday";
                     let bfHold = blackFriday.start.date.split("-");
                     blackFriday.start.date = `${bfHold[0]}-${bfHold[1]}-${Number(bfHold[2])+1}`;
