@@ -32,6 +32,7 @@ fetch(endpoint)
     })
     .then(() => {
         for(let i = 0; i<allHolidays.length; i++){
+            console.log(allHolidays[i].summary, allHolidays[i]);
             if(!allHolidays[i].description.startsWith("Observance") && isIncluded(allHolidays[i].summary)){
                 holidays.push(allHolidays[i]);
             }
