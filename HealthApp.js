@@ -37,13 +37,13 @@ fetch(endpoint)
             //console.log(allHolidays[i].summary, allHolidays[i]);
             if(!allHolidays[i].description.startsWith("Observance") && isIncluded(allHolidays[i].summary)){
                 holidays.push(allHolidays[i]);
-                if(allHolidays[i].summary.includes('Thanksgiving Day')){
+                if(enableBlackFridayHoliday && allHolidays[i].summary.includes('Thanksgiving Day')){
                     let blackFriday = allHolidays[i];
                     blackFriday.summary = "Black Friday";
                     let bfHold = blackFriday.start.date.split("-");
-                    blackFriday.start.date = `${bfHold[0]}-${bfHold[1]}-${bfHold[2]+1}`;
+                    blackFriday.start.date = `${bfHold[0]}-${bfHold[1]}-${Number(bfHold[2])+1}`;
                     bfHold = blackFriday.end.date.split("-");
-                    blackFriday.end.date = `${bfHold[0]}-${bfHold[1]}-${bfHold[2]+1}`;
+                    blackFriday.end.date = `${bfHold[0]}-${bfHold[1]}-${Number(bfHold[2])+1}`;
                     holidays.push(blackFriday);
                 }
             }
