@@ -9,6 +9,7 @@ initClock("HST", 'Pacific/Honolulu');
 var myTime = "";
 
 window.enableHoldayPrevention = true; //Test Feature disabled by console.
+window.enableBlackFridayHoliday = true; //Adds Black Friday to the results
 
 let holidayList = [
     'New Year\'s Day',
@@ -17,6 +18,7 @@ let holidayList = [
     'Independence Day',
     'Labor Day',
     'Thanksgiving Day',
+    'Black Friday',
     'Christmas Day'
 ];
 
@@ -32,9 +34,18 @@ fetch(endpoint)
     })
     .then(() => {
         for(let i = 0; i<allHolidays.length; i++){
-            console.log(allHolidays[i].summary, allHolidays[i]);
+            //console.log(allHolidays[i].summary, allHolidays[i]);
             if(!allHolidays[i].description.startsWith("Observance") && isIncluded(allHolidays[i].summary)){
                 holidays.push(allHolidays[i]);
+                if(allHolidays[i].summary.includes('Thanksgiving Day')){
+                    let blackFriday = allHolidays[i];
+                    blackFriday.summary = "Black Friday";
+                    let bfHold = blackFriday.start.date.split("-");
+                    blackFriday.start.date = `${bfHold[0]}-${bfHold[1]}-${bfHold[2]+1}`;
+                    bfHold = blackFriday.end.date.split("-");
+                    blackFriday.end.date = `${bfHold[0]}-${bfHold[1]}-${bfHold[2]+1}`;
+                    holidays.push(blackFriday);
+                }
             }
         }
     }).then(() => {
