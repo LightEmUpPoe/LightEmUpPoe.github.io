@@ -72,11 +72,26 @@ function isIncluded(holidayCheck){
 //setInterval(updateDates, 1000);
 //updateDates();
 
+var dateNow = new Date();
+console.log(dateNow);
+
+let datePicker = document.getElementById('date');
+datePicker.value = `${dateNow.getFullYear()}-${dateNow.getMonth() < 9 ? `0${dateNow.getMonth() + 1}` : dateNow.getMonth() + 1}-${dateNow.getDate()}`;
+datePicker.addEventListener('change', (e) => {
+    console.log(e.target.value);
+    dateNow = new Date(e.target.value + "T00:00:00");
+})
+
+let dateResetButton = document.getElementById('dateReset');
+dateResetButton.addEventListener('click',() => {
+    dateNow = new Date();
+    datePicker.value = `${dateNow.getFullYear()}-${dateNow.getMonth() < 9 ? `0${dateNow.getMonth() + 1}` : dateNow.getMonth() + 1}-${dateNow.getDate()}`;
+})
+
 function updateDates(){
     var today = document.getElementById("today");
     var seven = document.getElementById("seven");
     var thirty = document.getElementById("thirty");
-    var fourty = document.getElementById("fourty");
     var ninety = document.getElementById("ninety");
 
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -108,15 +123,6 @@ function updateDates(){
     }
     holidayString = "";
 
-    date = getOffsetDate(42);
-    fourty.innerHTML = date.toLocaleDateString("en-US", options)
-    if(offsetModifier!= 0){
-        fourty.nextElementSibling.innerHTML = `+42 Days (${42-offsetModifier} Actual${holidayString.length > 0 ? ` | ${holidayString}`:""})`
-    }else{
-        fourty.nextElementSibling.innerHTML = `+42 Days${holidayString.length > 0 ? ` | ${holidayString}`: ""}`
-    }
-    holidayString = "";
-
     date = getOffsetDate(90);
     ninety.innerHTML = date.toLocaleDateString("en-US", options)
     if(offsetModifier!= 0){
@@ -128,7 +134,8 @@ function updateDates(){
 
 
     function getOffsetDate(offset){
-        var now = new Date();
+        var now = new Date(dateNow);
+        //console.log(now);
         now.setDate(now.getDate() + offset)
         offsetModifier = 0;
         if(offset == 0){ 
