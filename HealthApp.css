@@ -115,6 +115,10 @@ body{
     color:rgb(39, 76, 129);
 }
 
+.hidden {
+    display: none;
+}
+
 .cyan{
     border-bottom: 3px solid cyan !important;
 }
