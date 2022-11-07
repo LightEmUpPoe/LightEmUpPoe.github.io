@@ -1,10 +1,11 @@
 
+let timerObj = {};
 initClock("EST", 'America/New_York');
 initClock("CST", 'America/Chicago');
 initClock("MST", 'America/Denver');
 initClock("PST", 'America/Los_Angeles');
 initClock("AST", 'America/Anchorage');
-initClock("HST", 'Pacific/Honolulu');
+initClock("Query", 'Pacific/Honolulu');
 
 var myTime = "";
 
@@ -91,7 +92,6 @@ dateResetButton.addEventListener('click',() => {
 var checkbox = document.getElementById("checkbox");
 
 checkbox.addEventListener("change", () => {
-    console.log('Here');
     document.getElementById('fortyDiv').classList.toggle('hidden');
 })
 
@@ -192,6 +192,31 @@ function updateDates(){
 
 }
 
+let locationQueryButton = document.getElementById('locationSubmit');
+locationQueryButton.addEventListener('click',() => {
+    let query = document.getElementById('location');
+    let queryValue = query.value
+    if(!isNaN(queryValue)){
+        queryValue += ' USA';
+    }
+    fetch(`https://timezone.abstractapi.com/v1/current_time/?api_key=0227e32b89f34f6d9923aeef412eccd8&location=${queryValue}`)
+    .then((response) => response.json())
+    .then((data) => {
+        console.log(data);
+        if(data.error){
+            alert(`Location Query Error:\n${data.error.message}\n${data.error.details}`);
+            return;
+        }
+        initClock("Query", data.timezone_location);
+        document.getElementById('Query_Location').innerHTML = data['requested_location'];
+
+
+    })
+    .catch(e => {
+        console.error("Location Query Error> ", e);
+    })
+})
+
 function initClock(id, offset){
     var canvas = document.getElementById(id);
     canvas.width = self.innerWidth;
@@ -201,7 +226,10 @@ function initClock(id, offset){
     ctx.translate(radius, radius);
     radius = radius * 0.90
     drawClock();
-    setInterval(drawClock, 1000);
+    if(Object.keys(timerObj).includes(id)){
+        clearInterval(timerObj[id]);
+    }
+    timerObj[id] = setInterval(drawClock, 500);
 
     function drawClock() {
         drawFace(ctx, radius);
@@ -215,7 +243,13 @@ function initClock(id, offset){
         ctx.arc(0, 0, radius, 0, 2*Math.PI);
         ctx.fillStyle = "#77b7ff"
         ctx.fill();
-        ctx.strokeStyle = id == myTime ? '#228b22' : 'black';
+        if(offset === myTime){
+            ctx.strokeStyle = '#228b22';
+        }else if(id === 'Query'){
+            ctx.strokeStyle = 'blue';
+        }else{
+            ctx.strokeStyle = 'black';
+        }
         ctx.lineWidth = radius*0.05;
         ctx.stroke();
         ctx.beginPath();
@@ -246,8 +280,8 @@ function initClock(id, offset){
         let modified = new Date( now.toLocaleString('en-US', {timeZone: offset,}) )
 
         if(modified.getHours() == now.getHours()){
-            //console.debug(`You're in the ${offset} timezone!`);
-            myTime = id;
+            console.debug(`You're in the ${offset} timezone!`, id, myTime);
+            myTime = offset;
         }
 
         getCurrentTimeZoneOffset(modified);

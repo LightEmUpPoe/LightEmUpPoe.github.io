@@ -16,9 +16,9 @@
     <body>
         <div class="clockContainer">
             <span>
-                Hawaii
-                <canvas id="HST" class="clockInstance"></canvas>
-                <a id="HST_Label">HST</a>
+                <span id="Query_Location">Hawaii</span>
+                <canvas id="Query" class="clockInstance"></canvas>
+                <a id="Query_Label">HST</a>
             </span>
             <span>
                 Alaska
@@ -47,11 +47,16 @@
             </span>
         </div>
         <div class="datePickerDiv">
+            <div class="CustomLocation">
+                <label for="location">Custom Location:</label>
+                <input type="text" id="location" name="location" value="Hawaii">
+                <button id="locationSubmit">Query</button>
+            </div>
             <div>
                 <label for="date">Date:</label>
                 <input type="date" id="date" name="date">
+                <button id="dateReset">Go to Today</button>
             </div>
-            <button id="dateReset">Go to Today</button>
         </div>
         <div class="dateContainer">
             <div class="dateTodayPlusSevenContainer">
