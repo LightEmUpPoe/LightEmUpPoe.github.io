@@ -113,10 +113,10 @@ function updateDates(){
     holidayString.length > 1 ? today.nextElementSibling.innerHTML = `Today | ${holidayString}` : `Today`;
     holidayString = "";
 
-    date = getOffsetDate(7);
+    date = getOffsetDateBusinessDays(5);
     seven.innerHTML = date.toLocaleDateString("en-US", options)
     if(offsetModifier!= 0){
-        seven.nextElementSibling.innerHTML = `C2 | +5 Business Days (${7-offsetModifier} Actual${holidayString.length > 0 ? ` | ${holidayString}`:""})`
+        seven.nextElementSibling.innerHTML = `C2 | +5 Business Days (${offsetModifier} Actual${holidayString.length > 0 ? ` | ${holidayString}`:""})`
     }else{
         seven.nextElementSibling.innerHTML = `C2 | +5 Business Days${holidayString.length > 0 ? ` | ${holidayString}`: ""}`;
     }
@@ -166,6 +166,19 @@ function updateDates(){
             }else{
                 offsetModifier++;
                 now.setDate(now.getDate() - 1);
+            }
+        }
+        return now;
+    }
+
+    function getOffsetDateBusinessDays(offset){
+        var now = new Date(dateNow);
+        let bdCounter = offset
+        while(bdCounter !== 0){
+            offsetModifier++;
+            now.setDate(now.getDate() + 1);
+            if(now.getDay() != 0 && now.getDay() != 6 && !(ifOnHoliday(now))){
+                bdCounter--;
             }
         }
         return now;
