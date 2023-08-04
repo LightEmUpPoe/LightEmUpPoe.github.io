@@ -5,6 +5,7 @@ initClock("CST", 'America/Chicago');
 initClock("MST", 'America/Denver');
 initClock("PST", 'America/Los_Angeles');
 initClock("AST", 'America/Anchorage');
+initClock("PHI", 'Asia/Manila', true)
 initClock("Query", 'Pacific/Honolulu');
 
 var myTime = "";
@@ -230,7 +231,7 @@ locationQueryButton.addEventListener('click',() => {
     })
 })
 
-function initClock(id, offset){
+function initClock(id, offset, showDay = false){
     var canvas = document.getElementById(id);
     canvas.width = self.innerWidth;
     canvas.height = self.innerWidth;
@@ -306,7 +307,11 @@ function initClock(id, offset){
 
 
         var label = document.getElementById(`${id}_Label`);
-        label.innerHTML = `${modified.toLocaleTimeString("en-us", {hour: "2-digit", minute: "2-digit", hour12: true})}`
+        if(!showDay){
+            label.innerHTML = `${modified.toLocaleTimeString("en-us", {hour: "2-digit", minute: "2-digit", hour12: true})}`
+        }else{
+            label.innerHTML = `${modified.toLocaleString("en-us", {weekday: "short", hour: "2-digit", minute: "2-digit", hour12: true})}`
+        }
         //hour
         hour=hour%12;
         hour=(hour*Math.PI/6)+

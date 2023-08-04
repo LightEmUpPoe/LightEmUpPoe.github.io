@@ -16,11 +16,6 @@
     <body>
         <div class="clockContainer">
             <span>
-                <span id="Query_Location">Hawaii</span>
-                <canvas id="Query" class="clockInstance"></canvas>
-                <a id="Query_Label">HST</a>
-            </span>
-            <span>
                 Alaska
                 <canvas id="AST" class="clockInstance"></canvas>
                 <a id="AST_Label">AST</a>
@@ -45,13 +40,13 @@
                 <canvas id="EST" class="clockInstance"></canvas>
                 <a id="EST_Label">EST</a>
             </span>
+            <span>
+                Manila, Philippines
+                <canvas id="PHI" class="clockInstance"></canvas>
+                <a id="PHI_Label">EST</a>
+            </span>
         </div>
         <div class="datePickerDiv">
-            <div class="CustomLocation">
-                <label for="location">Custom Location:</label>
-                <input type="text" id="location" name="location" value="Hawaii">
-                <button id="locationSubmit">Query</button>
-            </div>
             <div>
                 <label for="date">Date:</label>
                 <input type="date" id="date" name="date">
@@ -59,6 +54,18 @@
             </div>
         </div>
         <div class="dateContainer">
+            <div class="CustomLocationPosition">
+                <span>
+                    <span id="Query_Location">Hawaii</span>
+                    <canvas id="Query" class="clockInstance"></canvas>
+                    <a id="Query_Label">HST</a>
+                </span>
+                <div class="CustomLocation">
+                    <label for="location">Custom Location (USA):</label>
+                    <input type="text" id="location" name="location" value="Hawaii">
+                    <button id="locationSubmit">Query</button>
+                </div>
+            </div>
             <div class="dateTodayPlusSevenContainer">
                 <div class="dateInstance">
                     <img src="calendar-days-solid.svg" />
@@ -105,4 +112,6 @@
           </label>
     </body>
     <script src="HealthApp.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4954417490031445"
+     crossorigin="anonymous"></script>
 </html>
