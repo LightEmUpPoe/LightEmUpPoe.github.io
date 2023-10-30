@@ -93,7 +93,7 @@ dateResetButton.addEventListener('click',() => {
 var checkbox = document.getElementById("checkbox");
 
 checkbox.addEventListener("change", () => {
-    document.getElementById('fortyDiv').classList.toggle('hidden');
+    document.getElementById('thirtyDiv').classList.toggle('hidden');
 })
 
 function updateDates(){
