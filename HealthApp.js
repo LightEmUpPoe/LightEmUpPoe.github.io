@@ -125,11 +125,11 @@ function updateDates(){
     holidayString = "";
 
     date = getOffsetDateBusinessDays(10);
-    seven.innerHTML = date.toLocaleDateString("en-US", options)
+    ten.innerHTML = date.toLocaleDateString("en-US", options)
     if(offsetModifier!= 0){
-        seven.nextElementSibling.innerHTML = `C2 | +10 Business Days (${offsetModifier} Actual${holidayString.length > 0 ? ` | ${holidayString}`:""})`
+        ten.nextElementSibling.innerHTML = `C2 | +10 Business Days (${offsetModifier} Actual${holidayString.length > 0 ? ` | ${holidayString}`:""})`
     }else{
-        seven.nextElementSibling.innerHTML = `C2 | +10 Business Days${holidayString.length > 0 ? ` | ${holidayString}`: ""}`;
+        ten.nextElementSibling.innerHTML = `C2 | +10 Business Days${holidayString.length > 0 ? ` | ${holidayString}`: ""}`;
     }
     holidayString = "";
 
