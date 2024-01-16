@@ -142,6 +142,10 @@ body{
     border-bottom: 3px solid cyan !important;
 }
 
+.green{
+    border-bottom: 3px solid green !important;
+}
+
 .orange{
     border-bottom: 3px solid orange !important;
 }

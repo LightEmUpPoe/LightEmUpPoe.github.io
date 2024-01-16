@@ -99,6 +99,7 @@ checkbox.addEventListener("change", () => {
 function updateDates(){
     var today = document.getElementById("today");
     var seven = document.getElementById("seven");
+    var ten = document.getElementById("ten");
     var thirty = document.getElementById("thirty");
     var forty = document.getElementById("forty");
     var ninety = document.getElementById("ninety");
@@ -120,6 +121,15 @@ function updateDates(){
         seven.nextElementSibling.innerHTML = `C2 | +5 Business Days (${offsetModifier} Actual${holidayString.length > 0 ? ` | ${holidayString}`:""})`
     }else{
         seven.nextElementSibling.innerHTML = `C2 | +5 Business Days${holidayString.length > 0 ? ` | ${holidayString}`: ""}`;
+    }
+    holidayString = "";
+
+    date = getOffsetDateBusinessDays(10);
+    seven.innerHTML = date.toLocaleDateString("en-US", options)
+    if(offsetModifier!= 0){
+        seven.nextElementSibling.innerHTML = `C2 | +10 Business Days (${offsetModifier} Actual${holidayString.length > 0 ? ` | ${holidayString}`:""})`
+    }else{
+        seven.nextElementSibling.innerHTML = `C2 | +10 Business Days${holidayString.length > 0 ? ` | ${holidayString}`: ""}`;
     }
     holidayString = "";
 
