@@ -1,4 +1,5 @@
-
+let hold = {
+    
 let timerObj = {};
 initClock("EST", 'America/New_York');
 initClock("CST", 'America/Chicago');
