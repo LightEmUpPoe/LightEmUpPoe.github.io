@@ -1,4 +1,4 @@
-let hold = {
+
     
 let timerObj = {};
 initClock("EST", 'America/New_York');
