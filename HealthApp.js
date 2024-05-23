@@ -196,6 +196,7 @@ function updateDates(){
     function getOffsetDateBusinessDays(offset){
         var now = new Date(dateNow);
         let bdCounter = offset
+        offsetModifier = 0;
         while(bdCounter !== 0){
             offsetModifier++;
             now.setDate(now.getDate() + 1);
