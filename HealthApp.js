@@ -129,7 +129,7 @@ function updateDates(){
     date = getOffsetDateBusinessDays(10);
     ten.innerHTML = date.toLocaleDateString("en-US", options)
     if(offsetModifier!= 0){
-        ten.nextElementSibling.innerHTML = `C2 | +10 Business Days (${offsetModifier} Actual${holidayString.length > 0 ? ` | ${holidayString}`:""})`
+        ten.nextElementSibling.innerHTML = `C2 | +10 Business Days (${10-offsetModifier} Actual${holidayString.length > 0 ? ` | ${holidayString}`:""})`
     }else{
         ten.nextElementSibling.innerHTML = `C2 | +10 Business Days${holidayString.length > 0 ? ` | ${holidayString}`: ""}`;
     }
