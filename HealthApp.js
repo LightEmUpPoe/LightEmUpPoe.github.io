@@ -103,6 +103,7 @@ function updateDates(){
     var ten = document.getElementById("ten");
     var thirty = document.getElementById("thirty");
     var forty = document.getElementById("forty");
+    var sixty = document.getElementById("sixty");
     var ninety = document.getElementById("ninety");
 
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -146,9 +147,18 @@ function updateDates(){
     date = getOffsetDate(42);
     forty.innerHTML = date.toLocaleDateString("en-US", options)
     if(offsetModifier!= 0){
-        forty.nextElementSibling.innerHTML = `+42 Days (${30-offsetModifier} Actual${holidayString.length > 0 ? ` | ${holidayString}`:""})`
+        forty.nextElementSibling.innerHTML = `+42 Days (${42-offsetModifier} Actual${holidayString.length > 0 ? ` | ${holidayString}`:""})`
     }else{
         forty.nextElementSibling.innerHTML = `+42 Days${holidayString.length > 0 ? ` | ${holidayString}`: ""}`
+    }
+    holidayString = "";
+
+    date = getOffsetDate(60);
+    sixty.innerHTML = date.toLocaleDateString("en-US", options)
+    if(offsetModifier!= 0){
+        sixty.nextElementSibling.innerHTML = `+60 Days (${60-offsetModifier} Actual${holidayString.length > 0 ? ` | ${holidayString}`:""})`
+    }else{
+        sixty.nextElementSibling.innerHTML = `+60 Days${holidayString.length > 0 ? ` | ${holidayString}`: ""}`
     }
     holidayString = "";
 
